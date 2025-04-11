@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Bug List</title>
+</head>
+<body>
+    <section>
+        <h2>All Reported Bugs</h2>
+        <a th:href="@{/bugs/new}" class="btn btn-success mb-3" sec:authorize="hasAnyRole('ADMIN', 'DEVELOPER', 'REPORTER')">Report New Bug</a>
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Reporter</th>
+                    <th>Assignee</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="bug : ${bugs}" th:object="${bug}">
+                    <td th:text="*{id}">1</td>
+                    <td><a th:href="@{/bugs/{id}(id=*{id})}" th:text="*{title}">Bug Title</a></td>
+                    <td><span th:text="*{status}" th:classappend="*{status == T(com.yourcompany.bugtracker.model.BugStatus).NEW} ? 'badge bg-info' : (*{status == T(com.yourcompany.bugtracker.model.BugStatus).RESOLVED or status == T(com.yourcompany.bugtracker.model.BugStatus).CLOSED} ? 'badge bg-success' : (*{status == T(com.yourcompany.bugtracker.model.BugStatus).IN_PROGRESS or status == T(com.yourcompany.bugtracker.model.BugStatus).ASSIGNED} ? 'badge bg-warning' : 'badge bg-secondary'))">NEW</span></td>
+                    <td><span th:text="*{priority}" th:classappend="*{priority == T(com.yourcompany.bugtracker.model.Priority).CRITICAL} ? 'badge bg-danger' : (*{priority == T(com.yourcompany.bugtracker.model.Priority).HIGH} ? 'badge bg-warning text-dark' : (*{priority == T(com.yourcompany.bugtracker.model.Priority).MEDIUM} ? 'badge bg-info' : 'badge bg-light text-dark'))">MEDIUM</span></td>
+                    <td th:text="*{reporterUsername ?: 'N/A'}">reporter</td>
+                    <td th:text="*{assigneeUsername ?: 'Unassigned'}">developer</td>
+                    <td th:text="${#temporals.format(bug.createdAt, 'yyyy-MM-dd HH:mm')}">Timestamp</td>
+                    <td>
+                        <a th:href="@{/bugs/{id}(id=*{id})}" class="btn btn-sm btn-info">View</a>
+                        <a th:href="@{/bugs/{id}/edit(id=*{id})}" class="btn btn-sm btn-warning" sec:authorize="hasAnyRole('ADMIN', 'DEVELOPER')">Edit</a>
+                        <!-- Add delete button for admins -->
+                        <form th:action="@{/bugs/{id}/delete(id=*{id})}" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this bug?');" sec:authorize="hasRole('ADMIN')">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(bugs)}">
+                    <td colspan="8" class="text-center">No bugs found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

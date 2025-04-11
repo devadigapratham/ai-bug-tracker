@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title th:text="'Bug #' + ${bug.id} + ': ' + ${bug.title}">View Bug</title>
+</head>
+<body>
+    <section>
+        <h2 th:text="'Bug #' + ${bug.id} + ': ' + ${bug.title}">Bug Title</h2>
+
+        <div class="card">
+            <div class="card-header">
+                Details
+            </div>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-sm-3"><strong>Status:</strong></div>
+                    <div class="col-sm-9"><span th:text="${bug.status}" th:classappend="${bug.status == T(com.yourcompany.bugtracker.model.BugStatus).NEW} ? 'badge bg-info' : (${bug.status == T(com.yourcompany.bugtracker.model.BugStatus).RESOLVED or bug.status == T(com.yourcompany.bugtracker.model.BugStatus).CLOSED} ? 'badge bg-success' : (${bug.status == T(com.yourcompany.bugtracker.model.BugStatus).IN_PROGRESS or bug.status == T(com.yourcompany.bugtracker.model.BugStatus).ASSIGNED} ? 'badge bg-warning' : 'badge bg-secondary'))"></span></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-3"><strong>Priority:</strong></div>
+                     <div class="col-sm-9"><span th:text="${bug.priority}" th:classappend="${bug.priority == T(com.yourcompany.bugtracker.model.Priority).CRITICAL} ? 'badge bg-danger' : (${bug.priority == T(com.yourcompany.bugtracker.model.Priority).HIGH} ? 'badge bg-warning text-dark' : (${bug.priority == T(com.yourcompany.bugtracker.model.Priority).MEDIUM} ? 'badge bg-info' : 'badge bg-light text-dark'))"></span></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-3"><strong>Reporter:</strong></div>
+                    <div class="col-sm-9" th:text="${bug.reporterUsername ?: 'N/A'}"></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-3"><strong>Assignee:</strong></div>
+                    <div class="col-sm-9" th:text="${bug.assigneeUsername ?: 'Unassigned'}"></div>
+                </div>
+                 <div class="row mb-2">
+                     <div class="col-sm-3"><strong>Created:</strong></div>
+                     <div class="col-sm-9" th:text="${#temporals.format(bug.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></div>
+                 </div>
+                <div class="row mb-2" th:if="${bug.updatedAt != null}">
+                    <div class="col-sm-3"><strong>Last Updated:</strong></div>
+                    <div class="col-sm-9" th:text="${#temporals.format(bug.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></div>
+                </div>
+
+                <hr>
+                <h5>Description</h5>
+                <p style="white-space: pre-wrap;" th:text="${bug.description}"></p> <!-- pre-wrap preserves whitespace -->
+
+                <!-- Display AI Suggestions if they exist -->
+                <div th:if="${bug.aiSuggestedPriority != null or bug.aiSuggestedCategory != null}" class="mt-3 p-3 border rounded bg-light">
+                     <h5>AI Suggestions</h5>
+                     <p th:if="${bug.aiSuggestedPriority != null}">Suggested Priority: <strong th:text="${bug.aiSuggestedPriority}"></strong></p>
+                     <p th:if="${bug.aiSuggestedCategory != null}">Suggested Category: <strong th:text="${bug.aiSuggestedCategory}"></strong></p>
+                 </div>
+            </div>
+             <div class="card-footer">
+                 <a th:href="@{/bugs}" class="btn btn-secondary">Back to List</a>
+                 <a th:href="@{/bugs/{id}/edit(id=${bug.id})}" class="btn btn-warning" sec:authorize="hasAnyRole('ADMIN', 'DEVELOPER')">Edit Bug</a>
+                 <!-- Add other actions like Assign, Change Status etc. -->
+             </div>
+        </div>
+
+        <!-- TODO: Add Comments Section Here -->
+
+    </section>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title th:text="${bugDto.id == null} ? 'Report New Bug' : 'Edit Bug - ' + ${bugDto.title}">Report/Edit Bug</title>
+</head>
+<body>
+    <section>
+        <h2 th:text="${bugDto.id == null} ? 'Report New Bug' : 'Edit Bug #' + ${bugDto.id}">Form Title</h2>
+
+        <!-- Determine action URL based on whether it's a new bug or an edit -->
+        <form th:object="${bugDto}"
+              th:action="${bugDto.id == null} ? @{/bugs/save} : @{/bugs/{id}/update(id=${bugDto.id})}"
+              method="post">
+
+            <!-- Hidden field for ID during updates -->
+             <input type="hidden" th:if="${bugDto.id != null}" th:field="*{id}" />
+
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" id="title" class="form-control" th:field="*{title}" required/>
+                <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" class="form-control" rows="5" th:field="*{description}" required></textarea>
+                 <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</div>
+            </div>
+
+            <!-- Only show Status/Priority/Assignee fields when editing -->
+            <div th:if="${bugDto.id != null}">
+                 <div class="row">
+                     <div class="col-md-4 mb-3">
+                         <label for="status" class="form-label">Status</label>
+                         <select id="status" class="form-select" th:field="*{status}">
+                             <option th:each="stat : ${statuses}" th:value="${stat}" th:text="${stat}">STATUS</option>
+                         </select>
+                     </div>
+                     <div class="col-md-4 mb-3">
+                         <label for="priority" class="form-label">Priority</label>
+                         <select id="priority" class="form-select" th:field="*{priority}">
+                             <option th:each="prio : ${priorities}" th:value="${prio}" th:text="${prio}">PRIORITY</option>
+                         </select>
+                     </div>
+                      <div class="col-md-4 mb-3" sec:authorize="hasAnyRole('ADMIN', 'DEVELOPER')">
+                          <label for="assigneeId" class="form-label">Assignee</label>
+                          <select id="assigneeId" class="form-select" th:field="*{assigneeId}">
+                              <option value="">-- Unassigned --</option>
+                              <option th:each="dev : ${developers}" th:value="${dev.id}" th:text="${dev.username}">Developer Name</option>
+                          </select>
+                      </div>
+                </div>
+            </div>
+
+             <!-- Display AI Suggestions (Readonly) if available -->
+             <div th:if="${bugDto.aiSuggestedPriority != null or bugDto.aiSuggestedCategory != null}" class="alert alert-info mt-3">
+                 <h5>AI Suggestions</h5>
+                 <p th:if="${bugDto.aiSuggestedPriority != null}">Suggested Priority: <strong th:text="${bugDto.aiSuggestedPriority}"></strong></p>
+                 <p th:if="${bugDto.aiSuggestedCategory != null}">Suggested Category: <strong th:text="${bugDto.aiSuggestedCategory}"></strong></p>
+                 <small>(These are initial suggestions)</small>
+             </div>
+
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary" th:text="${bugDto.id == null} ? 'Report Bug' : 'Update Bug'">Submit</button>
+                <a th:href="${bugDto.id == null} ? @{/bugs} : @{/bugs/{id}(id=${bugDto.id})}" class="btn btn-secondary">Cancel</a>
+            </div>
+
+        </form>
+    </section>
+</body>
+</html>

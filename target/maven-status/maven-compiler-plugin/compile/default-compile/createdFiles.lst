@@ -1,0 +1,17 @@
+com/yourcompany/bugtracker/service/UserService.class
+com/yourcompany/bugtracker/repository/BugRepository.class
+com/yourcompany/bugtracker/model/BugStatus.class
+com/yourcompany/bugtracker/model/Role.class
+com/yourcompany/bugtracker/security/CustomUserDetailsService.class
+com/yourcompany/bugtracker/dto/BugDTO.class
+com/yourcompany/bugtracker/repository/UserRepository.class
+com/yourcompany/bugtracker/BugTrackerApplication.class
+com/yourcompany/bugtracker/controller/ApiController.class
+com/yourcompany/bugtracker/service/BugService.class
+com/yourcompany/bugtracker/service/AiSuggestionService.class
+com/yourcompany/bugtracker/controller/WebController.class
+com/yourcompany/bugtracker/model/Bug.class
+com/yourcompany/bugtracker/model/Priority.class
+com/yourcompany/bugtracker/config/DataInitializer.class
+com/yourcompany/bugtracker/model/User.class
+com/yourcompany/bugtracker/config/SecurityConfig.class

@@ -1,0 +1,17 @@
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/config/SecurityConfig.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/model/Role.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/dto/BugDTO.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/service/UserService.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/repository/UserRepository.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/controller/WebController.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/service/BugService.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/model/User.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/security/CustomUserDetailsService.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/controller/ApiController.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/config/DataInitializer.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/BugTrackerApplication.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/model/Bug.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/model/BugStatus.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/repository/BugRepository.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/model/Priority.java
+/home/prathamesh/ooadproject/ai-bug-tracker/src/main/java/com/yourcompany/bugtracker/service/AiSuggestionService.java
